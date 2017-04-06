@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationListener;
 import com.qingtian.data.Book;
 import com.qingtian.data.BookResponsitory;
 import com.qingtian.data.Student;
+import com.qingtian.data.StudentResponsitory;
 import com.qingtian.data.Teacher;
 import com.qingtian.data.TeacherResponsitory;
 
@@ -27,28 +28,35 @@ public class SpringDataDemoApplication  implements ApplicationListener<Applicati
 	
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent e) {
+		
 		TeacherResponsitory teacherResponsitory = e.getApplicationContext().getBean(TeacherResponsitory.class);
+		StudentResponsitory studentResponsitory = e.getApplicationContext().getBean(StudentResponsitory.class);
+		ArrayList<Student> students=new ArrayList<Student>();
+		ArrayList<Teacher> teachers=new ArrayList<Teacher>();
+		ArrayList<Book> books=new ArrayList<Book>();
+		Book book=new Book();
+		book.setName("woyufengtian");
+		
 		Teacher teacher=new Teacher();
 		teacher.setName("zhanglaoshi");
-		ArrayList<Student> students=new ArrayList<Student>();
 		Student student=new Student();
-		List<Book> books=new ArrayList<Book>();
+		books.add(book);
+		student.setBooks(books);
+		student.setTeachers(teachers);
+		student.setUsername("qingtian");
+		book.setStudent(student);
 		students.add(student);
+		teachers.add(teacher);
 		teacher.setStudents(students);
 		teacherResponsitory.save(teacher);
-		
-		
+		studentResponsitory.save(student);
 		BookResponsitory bookResponsitory = e.getApplicationContext().getBean(BookResponsitory.class);
-		Book book=new Book();
-		book.setName("语文");
-		book.setStudent(student);
-		books.add(book);
-		Book booknew=bookResponsitory.findOne(1L);
-		System.out.println(booknew);
+		bookResponsitory.save(book);
 		
-//		System.out.println(booknew.getName());
-//		System.out.println(booknew.getStudent().getId());
-		
+		Student student1=studentResponsitory.findOne(1L);
+		System.out.println(student1);
+		System.out.println(student1.getUsername());
+		System.out.println(student1.getBooks());
 	}
 	
 }

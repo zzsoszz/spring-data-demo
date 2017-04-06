@@ -20,6 +20,10 @@ public class Student {
 	@ManyToMany
 	List<Teacher> teachers;
 	
+	/*
+	 * http://docs.jboss.org/hibernate/annotations/3.4/reference/zh_cn/html_single/#d0e1291
+	 * 在EJB3规范中多对一这端几乎总是双向关联中的主体(owner)端, 而一对多这端的关联注解为@OneToMany( mappedBy=... )
+	 */
 	//交出维护权
 	@OneToMany(mappedBy="student",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	List<Book> books;
@@ -28,7 +32,7 @@ public class Student {
 	public List<Book> getBooks() {
 		return books;
 	}
-
+	
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}

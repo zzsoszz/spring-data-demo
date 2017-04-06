@@ -18,6 +18,7 @@ public class Teacher {
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	List<Student> students;
 	
+	
 	public Long getId() {
 		return id;
 	}
