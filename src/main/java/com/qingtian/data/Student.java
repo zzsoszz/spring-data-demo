@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -17,7 +18,7 @@ public class Student {
 	
 	String username;
 	
-	@ManyToMany
+	@ManyToMany//(fetch = FetchType.EAGER)
 	List<Teacher> teachers;
 	
 	/*
@@ -25,7 +26,7 @@ public class Student {
 	 * 在EJB3规范中多对一这端几乎总是双向关联中的主体(owner)端, 而一对多这端的关联注解为@OneToMany( mappedBy=... )
 	 */
 	//交出维护权
-	@OneToMany(mappedBy="student",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToMany(mappedBy="student",fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	List<Book> books;
 	
 	
